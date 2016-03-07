@@ -17,9 +17,6 @@ public class Dices implements Serializable {
         return diceList;
     }
 
-
-
-
     @Override
     public String toString() {
         String text = "";
@@ -28,5 +25,9 @@ public class Dices implements Serializable {
             text = text + dice.eyes;
         }
         return text;
+    }
+
+    public void clearList(){
+        diceList.clear();
     }
 }

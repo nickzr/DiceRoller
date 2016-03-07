@@ -20,7 +20,7 @@ public class MainActivity extends AppCompatActivity {
     NumberPicker npDices;
     TextView txtEyes;
     ArrayList<Dice> diceList;
-    ArrayList<Dices> dicesList;
+    ArrayList<Dices> multipleRollsList;
 
 
     @Override
@@ -34,7 +34,7 @@ public class MainActivity extends AppCompatActivity {
         txtEyes = (TextView) findViewById(R.id.txtEyes);
         txtEyes.setText("");
 
-        dicesList = new ArrayList<Dices>();
+        multipleRollsList = new ArrayList<Dices>();
 
         npDices.setMinValue(1);
         npDices.setMaxValue(6);
@@ -56,7 +56,7 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View v) {
                 Intent intent = new Intent();
                 intent.setClass(getApplicationContext(), HistoryClass.class);
-                intent.putExtra("dicesList", dicesList);
+                intent.putExtra("dicesList", multipleRollsList);
                 startActivity(intent);
             }
         });
@@ -73,7 +73,7 @@ public class MainActivity extends AppCompatActivity {
             txtEyes.setText(txtEyes.getText() + "Dice " + i + " = " + dice + "\n");
         }
         Dices dices1 = new Dices(diceList);
-        dicesList.add(dices1);
+        multipleRollsList.add(dices1);
     }
 
     @Override

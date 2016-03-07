@@ -18,20 +18,21 @@ import java.util.ArrayList;
  * Created by rimon on 3/7/2016.
  */
 public class HistoryClass extends Activity {
-    HistoryActivity HA = new HistoryActivity();
-    ArrayList<Dices> dices;
+
+    ArrayList<Dices> diceRollsList;
     Button btnClear;
-    DiceAdapter myAdapter;
     TextView txtDices;
+    DiceAdapter myAdapter;
+    Intent intent;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-       // setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_secondpage);
 
-        dices = new ArrayList<Dices>();
-        Intent intent = getIntent();
-        dices = (ArrayList<Dices>) intent.getSerializableExtra("dicesList");
+        diceRollsList = new ArrayList<Dices>();
+        intent = getIntent();
+        diceRollsList = (ArrayList<Dices>) intent.getSerializableExtra("dicesList");
 
         btnClear = (Button) findViewById(R.id.btnClear);
         ListView lvLists = (ListView) findViewById(R.id.listView);
@@ -41,22 +42,23 @@ public class HistoryClass extends Activity {
         btnClear.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                dices.clear();
+                //getIntent().removeExtra("dicesList");
+                //diceRollsList = new ArrayList<Dices>();
+                //diceRollsList.clear();
                 txtDices.setText("");
+                //myAdapter.clearList();
+                //myAdapter.notifyDataSetChanged();
             }
         });
 
-        myAdapter = new DiceAdapter(dices);
+        myAdapter = new DiceAdapter();
         lvLists.setAdapter(myAdapter);
-        //lvLists.setListAdapter(myAdapter);
     }
 
     private class DiceAdapter extends BaseAdapter {
         private LayoutInflater inflater;
-        private ArrayList<Dices> dicesList;
 
-        public DiceAdapter(ArrayList<Dices> dices){
-            dicesList = dices;
+        public DiceAdapter(){
             inflater = (LayoutInflater)getSystemService(Context.LAYOUT_INFLATER_SERVICE); // takes the XML-files and creates different View-objects from its contents.
         }
 
@@ -68,31 +70,39 @@ public class HistoryClass extends Activity {
 
             txtDices = (TextView) view.findViewById(R.id.txtDice);
 
-            txtDices.setText("Roll: " + (position + 1) + " = " + dices.get(position).getDiceList());
+            txtDices.setText("Roll: " + (position + 1) + " = " + diceRollsList.get(position).getDiceList());
 
             return view;
         }
 
         @Override
-        public int getCount() {
-            return dicesList.size();
+        public int getCount()
+        {
+            return diceRollsList.size();
         }
 
         @Override
-        public long getItemId(int position) {
+        public long getItemId(int position)
+        {
             return position;
         }
 
         @Override
-        public Dices getItem(int position) {
-            return dicesList.get(position);
+        public Dices getItem(int position)
+        {
+            return diceRollsList.get(position);
+        }
+
+        public void clearList(){
+            diceRollsList.clear();
         }
     }
 
 
 
-    public ArrayList<Dices> getListOfDices(){
-        return dices;
+    public ArrayList<Dices> getListOfDices()
+    {
+        return diceRollsList;
     }
 
 }
