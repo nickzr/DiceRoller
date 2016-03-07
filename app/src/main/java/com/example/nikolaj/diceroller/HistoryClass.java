@@ -1,6 +1,6 @@
 package com.example.nikolaj.diceroller;
 
-import android.app.ListActivity;
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -9,36 +9,49 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.Button;
+import android.widget.ListView;
 import android.widget.TextView;
 
 import java.util.ArrayList;
 
 /**
- * Created by Nikolaj on 04/03/2016.
+ * Created by rimon on 3/7/2016.
  */
-public class HistoryActivity extends ListActivity{
+public class HistoryClass extends Activity {
+    HistoryActivity HA = new HistoryActivity();
     ArrayList<Dices> dices;
-    DiceAdapter myAdapter;
     Button btnClear;
+    DiceAdapter myAdapter;
     TextView txtDices;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+       // setContentView(R.layout.activity_main);
 
-        /*dices = new ArrayList<Dices>();
+        dices = new ArrayList<Dices>();
         Intent intent = getIntent();
-        dices = (ArrayList<Dices>) intent.getSerializableExtra("dicesList");*/
+        dices = (ArrayList<Dices>) intent.getSerializableExtra("dicesList");
 
-        HistoryClass hc = new HistoryClass();
-        dices = hc.getListOfDices();
+        btnClear = (Button) findViewById(R.id.btnClear);
+        ListView lvLists = (ListView) findViewById(R.id.listView);
 
-    myAdapter = new DiceAdapter(dices);
-    setListAdapter(myAdapter);
-}
+        btnClear = (Button) findViewById(R.id.btnClear);
 
+        btnClear.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dices.clear();
+                txtDices.setText("");
+            }
+        });
 
-    private class DiceAdapter extends BaseAdapter{
+        myAdapter = new DiceAdapter(dices);
+        lvLists.setAdapter(myAdapter);
+        //lvLists.setListAdapter(myAdapter);
+    }
+
+    private class DiceAdapter extends BaseAdapter {
         private LayoutInflater inflater;
         private ArrayList<Dices> dicesList;
 
@@ -53,7 +66,6 @@ public class HistoryActivity extends ListActivity{
                 view = inflater.inflate(R.layout.activity_history, parent, false);
             }
 
-            String text = "";
             txtDices = (TextView) view.findViewById(R.id.txtDice);
 
             txtDices.setText("Roll: " + (position + 1) + " = " + dices.get(position).getDiceList());
@@ -76,4 +88,11 @@ public class HistoryActivity extends ListActivity{
             return dicesList.get(position);
         }
     }
+
+
+
+    public ArrayList<Dices> getListOfDices(){
+        return dices;
+    }
+
 }
